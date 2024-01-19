@@ -13,5 +13,7 @@ export interface IUserCreate {
 
 export interface IUserRepository {
   create(user: IUserCreate): Promise<IUser>;
+  listUsers(): Promise<IUser[]>;
   findByEmail(email: string): Promise<IUser | null>;
+  findById(userId: string): Promise<IUser | null>;
 }

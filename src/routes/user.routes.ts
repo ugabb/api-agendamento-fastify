@@ -15,7 +15,29 @@ export async function userRoutes(fastify: FastifyInstance) {
     }
   });
 
-  fastify.get("/", (req, reply) => {
-    reply.send({ hello: "world" });
+  //find all users
+  fastify.get("/", async (req, reply) => {
+    try {
+      const users = await userUseCase.listUsers();
+      return reply.send(users);
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
+  // find user by email
+  fastify.get("/:email", async (req, reply) => {
+    const { email } = req.params;
+    console.log("EMAIL", email);
+    try {
+      const user = await userUseCase.findByEmail(email);
+      return reply.send(user);
+    } catch (error) {
+      reply.send(error);
+    }
+  });
+
+  fastify.get("/hello", (req, reply) => {
+    reply.send("Hello");
   });
 }
